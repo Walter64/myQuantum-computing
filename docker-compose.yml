@@ -7,16 +7,35 @@
 #   redis:
 #     image: "redis:alpine"
 
-# new version which includes bind mount
+# # new version which includes bind mount
+# version: "3.9"
+# services:
+#   web:
+#     build: .
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - .:/code
+#     environment:
+#       FLASK_ENV: development
+#   redis:
+#     image: "redis:alpine"
+
+# newest version for jupyter notebook
+# anounces just one service
+# builds from current folder's Dockerfile
+# port 8888 jupyter uses by default
+# mounts current folder to .:/home/jovyan/
+# sets env variable to yes, to make jupyter lab run
 version: "3.9"
 services:
   web:
     build: .
+    image: webapp:tag
     ports:
-      - "5000:5000"
+      - "8888:8888"
     volumes:
-      - .:/code
+      - .:/home/jovyan/repo
     environment:
-      FLASK_ENV: development
-  redis:
-    image: "redis:alpine"
+      JUPYTER_ENABLE_LAB: "yes"
+      GRANT_SUDO: "yes"
